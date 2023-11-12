@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-	Worker waiter(1, "Enes Telli", "5552225577", 10000);
+	Worker waiter(1, "Enes Telli", "5552225577", 1000);
 	cout<<waiter.get_id()<<endl;
 	cout<<waiter.get_name()<<endl;
 	return 0;
