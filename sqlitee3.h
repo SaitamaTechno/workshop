@@ -3,20 +3,26 @@
 
 #include <stdio.h>
 #include <sqlite3.h> 
+#include <string>
+using namespace std;
 
-int main(int argc, char* argv[]) {
-   sqlite3 *db;
-   char *zErrMsg = 0;
-   int rc;
+class Sql {
+   public:
+      Sql(string filename);
+      ~Sql();
+      static int callback(void *data, int argc, char **argv, char **azColName);
+      static int callback1(void *data, int argc, char **argv, char **azColName);
+      void add_worker(string NAME, string SURNAME, string JOB, int AGE, string ADDRESS, double SALARY);
+      void update_worker(int ID, string column_name, string data);
+      void update_worker(int ID, string column_name, int data);
+      void delete_worker(int ID);
+      void print_worker_data(int ID);
+      void print_all_workers();
+   private:
+      sqlite3 *db;
+      int rc;
+      static int id_counter;
 
-   rc = sqlite3_open("test.db", &db);
+};
 
-   if( rc ) {
-      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-      return(0);
-   } else {
-      fprintf(stderr, "Opened database successfully\n");
-   }
-   sqlite3_close(db);
-}
 #endif

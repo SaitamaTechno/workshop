@@ -6,7 +6,7 @@ static int callback(void *data, int argc, char **argv, char **azColName){
 
    for(int i = 0; i < argc; i++){
       printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-      if (string(azColName[i]) == "AGE" && argv[i]) {
+      if (string(azColName[i]) == "SALARY" && argv[i]) {
          *agePtr = atoi(argv[i]);
       }
    }
@@ -22,14 +22,16 @@ int main(int argc, char* argv[]) {
    string sql = "CREATE TABLE PERSON("
                       "ID INT PRIMARY KEY     NOT NULL, "
                       "NAME           TEXT    NOT NULL, "
-                      "SURNAME          TEXT     NOT NULL, "
+                      "SURNAME        TEXT    NOT NULL, "
+                      "JOB            TEXT    NOT NULL, "
                       "AGE            INT     NOT NULL, "
                       "ADDRESS        CHAR(50), "
                       "SALARY         REAL );";
    */
+   //string sql = "DROP TABLE PERSON;";
    //string sql = "INSERT INTO PERSON (ID, NAME, SURNAME, AGE, ADDRESS, SALARY) VALUES (2, 'John', 'Doe', 30, '123 Main St', 50000.00 ); ";
    string sql = "SELECT * FROM PERSON WHERE ID=2;";
-
+   //string sql = "UPDATE PERSON SET SALARY=60000 WHERE ID=2;";
    rc = sqlite3_open("mydata.db", &db);
 
    if(rc) {  
@@ -40,9 +42,9 @@ int main(int argc, char* argv[]) {
    }
 
    char *errorMessage = 0;
-   int age=0;
-   rc = sqlite3_exec(db, sql.c_str(), callback, &age, &errorMessage); 
-   cout<<age<<endl;
+   int salary=0;
+   rc = sqlite3_exec(db, sql.c_str(), callback, &salary, &errorMessage); 
+   cout<<salary<<endl;
    if (rc != SQLITE_OK) {
       cerr << "SQL error: " << errorMessage << endl;
       sqlite3_free(errorMessage);
