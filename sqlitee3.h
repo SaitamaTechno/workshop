@@ -13,10 +13,11 @@ class Sql {
       static int callback(void *data, int argc, char **argv, char **azColName);
       static int callback1(void *data, int argc, char **argv, char **azColName);
       void add_worker(string NAME, string SURNAME, string JOB, int AGE, string ADDRESS, double SALARY);
-      void update_worker(int ID, string column_name, string data);
+      void update_worker(int ID, string column_name, string data); // Function Overloading 
       void update_worker(int ID, string column_name, int data);
       void delete_worker(int ID);
-      void print_worker_data(int ID);
+      void print_worker_by_id(int ID);
+      void print_worker_by_fullname(string fullname);
       void print_all_workers();
    private:
       sqlite3 *db;

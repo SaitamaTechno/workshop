@@ -28,9 +28,22 @@ int main(int argc, char* argv[]) {
                       "ADDRESS        CHAR(50), "
                       "SALARY         REAL );";
    */
+   /*
+   string sql = "CREATE TABLE STOCK("
+                     "ITEM_NAME TEXT NOT NULL,"
+                     "QUANTITY INT NOT NULL );";
+   */
+   //string sql = "CREATE TABLE FINANCES(TYPE TEXT, AMOUNT REAL);";
+   string sql = "CREATE TABLE MENU ("
+                     "MENU_NAME TEXT PRIMARY KEY NOT NULL,"
+                     "MEAT REAL,"
+                     "CHICKEN REAL,"
+                     "TOMATO REAL,"
+                     "POTATO REAL,"
+                     "CHEESE REAL);";
    //string sql = "DROP TABLE PERSON;";
    //string sql = "INSERT INTO PERSON (ID, NAME, SURNAME, AGE, ADDRESS, SALARY) VALUES (2, 'John', 'Doe', 30, '123 Main St', 50000.00 ); ";
-   string sql = "SELECT * FROM PERSON WHERE ID=2;";
+   //string sql = "SELECT * FROM PERSON WHERE ID=2;";
    //string sql = "UPDATE PERSON SET SALARY=60000 WHERE ID=2;";
    rc = sqlite3_open("mydata.db", &db);
 

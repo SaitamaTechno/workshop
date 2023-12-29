@@ -39,9 +39,23 @@ Sql::Sql(string filename){
 Sql::~Sql(){
    sqlite3_close(db);
 }
-void Sql::print_worker_data(int ID){
+void Sql::print_worker_by_id(int ID){
    //string sql = "INSERT INTO PERSON (ID, NAME, SURNAME, AGE, ADDRESS, SALARY) VALUES (2, 'John', 'Doe', 30, '123 Main St', 50000.00 ); ";
    string sql = "SELECT * FROM PERSON WHERE ID="+to_string(ID)+";";
+   char *errorMessage = 0;
+   rc = sqlite3_exec(db, sql.c_str(), callback, 0, &errorMessage); 
+   //cout<<salary<<endl;
+   if (rc != SQLITE_OK) {
+      cerr << "SQL error: " << errorMessage << endl;
+      sqlite3_free(errorMessage);
+   }
+}
+void Sql::print_worker_by_fullname(string fullname){
+   //string sql = "INSERT INTO PERSON (ID, NAME, SURNAME, AGE, ADDRESS, SALARY) VALUES (2, 'John', 'Doe', 30, '123 Main St', 50000.00 ); ";
+   string name=fullname.substr(0, fullname.find(" "));
+   string surname=fullname.substr(fullname.find(" ")+1, fullname.length());
+   //cout<<name+" "+surname<<endl;
+   string sql = "SELECT * FROM PERSON WHERE NAME = '"+name+"' AND SURNAME = '"+surname+"';";
    char *errorMessage = 0;
    rc = sqlite3_exec(db, sql.c_str(), callback, 0, &errorMessage); 
    //cout<<salary<<endl;

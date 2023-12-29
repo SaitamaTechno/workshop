@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Stock.h"
+#include "stock.h"
 #include "Dish.h"
 using namespace std;
 

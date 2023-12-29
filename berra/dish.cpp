@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "Dish.h"
-#include "Stock.h"
+#include "dish.h"
+#include "stock.h"
 using namespace std;
 Dish::Dish(string n,string m,Stock a,int p)
 {

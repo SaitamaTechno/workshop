@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "Stock.h"
+#include "stock.h"
 #ifndef  DISH_H
 #define DISH_H
 
