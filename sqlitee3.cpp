@@ -119,3 +119,23 @@ void Sql::update_worker(int ID, string column_name, int data){
       sqlite3_free(errorMessage);
    }
 }
+double Sql::get_total_salaries() {
+    double totalSalaries = 0.0;
+    char* errMsg = nullptr;
+    string sql = "SELECT SUM(SALARY) FROM PERSON;";  // Assuming your table is named 'workers'
+
+    auto callback = [](void* data, int argc, char** argv, char** azColName) -> int {
+        double* totalSalaries = static_cast<double*>(data);
+        if (argc > 0 && argv[0]) {
+            *totalSalaries = atof(argv[0]);
+        }
+        return 0;
+    };
+
+    if (sqlite3_exec(db, sql.c_str(), callback, &totalSalaries, &errMsg) != SQLITE_OK) {
+        cerr << "SQL error: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+    return totalSalaries;
+}

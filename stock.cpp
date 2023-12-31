@@ -74,3 +74,24 @@ int Stock::callback1(void* data, int argc, char** argv, char** azColName) {
     }
     return 0;
 }
+
+vector<string> Stock::get_stock_names() {
+    vector<string> names;
+    char* errMsg = nullptr;
+    string sql = "SELECT DISTINCT ITEM_NAME FROM STOCK;"; // Assuming the column for names is 'ITEM_NAME'
+
+    if (sqlite3_exec(db, sql.c_str(), names_callback, &names, &errMsg) != SQLITE_OK) {
+        cerr << "SQL error: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+    return names;
+}
+
+int Stock::names_callback(void* data, int argc, char** argv, char** azColName) {
+    vector<string>* names = static_cast<vector<string>*>(data);
+    if (argv[0]) {
+        names->push_back(argv[0]);
+    }
+    return 0;
+}

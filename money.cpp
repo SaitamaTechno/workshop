@@ -1,5 +1,7 @@
 #include "money.h"
 #include <iostream>
+#include <cmath>
+double Money::s_balance = 0.0;
 
 Money::Money(string filename){
     int rc=0;
@@ -15,56 +17,66 @@ Money::~Money(){
 }
 void Money::record_income(double amount) {
     char* errMsg = nullptr;
-    std::string sql = "INSERT INTO FINANCES (TYPE, AMOUNT) VALUES ('Income', " + std::to_string(amount) + ");";
+    string sql = "INSERT INTO FINANCES (TYPE, AMOUNT) VALUES ('Income', " + to_string(amount) + ");";
     if (sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg) != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
+        cerr << "SQL error: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 }
 
 void Money::record_expense(double amount) {
     char* errMsg = nullptr;
-    std::string sql = "INSERT INTO FINANCES (TYPE, AMOUNT) VALUES ('Expense', " + std::to_string(amount) + ");";
+    string sql = "INSERT INTO FINANCES (TYPE, AMOUNT) VALUES ('Expense', " + to_string(amount) + ");";
     if (sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg) != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
+        cerr << "SQL error: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 }
 
-double Money::get_balance() {
-    double balance = 0.0;
+double Money::get_balance() const{
+    s_balance = 0.0; // Reset balance
     char* errMsg = nullptr;
-    std::string sql = "SELECT TYPE, AMOUNT FROM FINANCES;";
-    if (sqlite3_exec(db, sql.c_str(), [](void* data, int argc, char** argv, char** azColName) -> int {
-        double* balance = static_cast<double*>(data);
-        std::string type = argv[0];
-        double amount = std::stod(argv[1]);
-        if (type == "Income") {
-            *balance += amount;
-        } else if (type == "Expense") {
-            *balance -= amount;
-        }
-        return 0;
-    }, &balance, &errMsg) != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
-        sqlite3_free(errMsg);
-    }
-    return balance;
-}
+    string sql = "SELECT TYPE, AMOUNT FROM FINANCES;";
 
-void Money::print_transactions() {
-    char* errMsg = nullptr;
-    std::string sql = "SELECT * FROM FINANCES;";
     if (sqlite3_exec(db, sql.c_str(), Money::callback, nullptr, &errMsg) != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
+        cerr << "SQL error: " << errMsg << endl;
+        sqlite3_free(errMsg);
+    }
+
+    return s_balance;
+}
+
+
+void Money::print_transactions() const{
+    char* errMsg = nullptr;
+    string sql = "SELECT * FROM FINANCES;";
+    if (sqlite3_exec(db, sql.c_str(), Money::callback1, nullptr, &errMsg) != SQLITE_OK) {
+        cerr << "SQL error: " << errMsg << endl;
         sqlite3_free(errMsg);
     }
 }
-
-int Money::callback(void* NotUsed, int argc, char** argv, char** azColName) {
+int Money::callback1(void *NotUsed, int argc, char **argv, char **azColName) {
     for (int i = 0; i < argc; i++) {
-        std::cout << azColName[i] << " = " << (argv[i] ? argv[i] : "NULL") << std::endl;
+        cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << endl;
     }
-    std::cout << std::endl;
+    cout << endl;
     return 0;
+}
+int Money::callback(void* NotUsed, int argc, char** argv, char** azColName) {
+    string type = argv[0];
+    double amount = stod(argv[1]);
+
+    if (type == "Income") {
+        s_balance += amount;
+    } else if (type == "Expense") {
+        s_balance -= amount;
+
+    }
+
+    return 0;
+}
+ostream& operator<<(ostream& os, const Money& money) {
+    money.print_transactions();
+    os << "\nBalance: " <<money.get_balance();
+    return os;
 }

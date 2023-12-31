@@ -4,7 +4,7 @@
 #include "stock.h"
 #include "money.h"
 #include "menu.h"
-
+#include "chairs.h"
 using namespace std;
 
 int main(){
@@ -21,26 +21,36 @@ int main(){
 
     //              SQL MANAGE STOCKS               //
     //Stock stock("mydata.db");
-    //stock.add_item("meat", 99);
-    //stock.add_item("tomato", 100);
+    //stock.add_item("chicken", 100);
     //cout<<stock.get_quantity("meat")<<endl;
     //stock.update_item("meat", 101);
     //stock.print_stock();
 
     //              SQL MANAGE MONEY                //
-    Money money("mydata.db");
+    //Money money("mydata.db");
     //money.record_income(10000);
-    money.record_expense(1000);
-    money.print_transactions();
-    cout<<"Total Balance: "<<money.get_balance()<<endl;
+    //money.record_expense(1000);
+    //money.print_transactions();
+    //cout<<"Total Balance: "<<money.get_balance()<<endl;
 
     //              SQL MANAGE MENU                 //
-    Menu menu("mydata.db");
+    //Menu menu("mydata.db");
     //menu.add_menu_item("Chicken Burger", 0.0, 0.2, 0.1, 0.0, 0.0);
     //menu.add_menu_item("Cheese Burger", 0.1, 0.0, 0.05, 0.0, 0.05);
     //menu.add_menu_item("Veggie Burger", 0.0, 0.0, 0.1, 0.1, 0.05);
     //menu.add_menu_item("Classic Burger", 0.15, 0.0, 0.05, 0.0, 0.05);
     //menu.print_ingredients("Chicken Burger");
-    menu.print_menu();
+    //menu.print_menu();
+
+    //              SQL MANAGE CHAIRS               //
+    
+    Chairs chairs("mydata.db");
+    
+    for (int i = 1; i <= 10; ++i) {
+        //chairs.add_chair();
+        //chairs.print_chair_info(i);
+        continue;
+    }
+    
     return 0;
 }

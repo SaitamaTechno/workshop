@@ -19,6 +19,8 @@ class Sql {
       void print_worker_by_id(int ID);
       void print_worker_by_fullname(string fullname);
       void print_all_workers();
+      double get_total_salaries();
+
    private:
       sqlite3 *db;
       int rc;
