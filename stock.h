@@ -26,4 +26,4 @@ private:
 
 };
 
-#endif // STOCK_H
+#endif 

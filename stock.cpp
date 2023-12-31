@@ -78,7 +78,7 @@ int Stock::callback1(void* data, int argc, char** argv, char** azColName) {
 vector<string> Stock::get_stock_names() {
     vector<string> names;
     char* errMsg = nullptr;
-    string sql = "SELECT DISTINCT ITEM_NAME FROM STOCK;"; // Assuming the column for names is 'ITEM_NAME'
+    string sql = "SELECT DISTINCT ITEM_NAME FROM STOCK;";
 
     if (sqlite3_exec(db, sql.c_str(), names_callback, &names, &errMsg) != SQLITE_OK) {
         cerr << "SQL error: " << errMsg << endl;

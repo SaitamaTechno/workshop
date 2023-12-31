@@ -26,4 +26,4 @@ private:
     static int print_ingredients_callback(void* NotUsed, int argc, char** argv, char** azColName);
 };
 
-#endif // MENU_H
+#endif
